@@ -10,7 +10,7 @@ var formTemplate = {
         "type": "text",
         "class": "form-control",
         "name": "data",
-        "value": 'texto',
+        "value": "texto",
         "id": "my-box",
       },
       {
@@ -23,7 +23,7 @@ var formTemplate = {
           {
             "type": "click",
             "callback": "mostrar_alerta",
-            "args": ["evt", "$('#my-box').val()"]
+            "args": ["evt", "$(evt.currentTarget).closest('form').find('input[type=text]').val()"]
           }
         ]
       }

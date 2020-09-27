@@ -16,9 +16,7 @@ class Lotus{
   }
 
   static generateDOMElement(parent, node){
-    console.log(node["tag"]);
     var currentElement = $('<'+node["tag"]+'>');
-    console.log(node["tag"]);
     var keys = Object.keys(node);
     for(var index=0; index < keys.length; index+=1){
       if(keys[index] == "node"){
@@ -46,6 +44,6 @@ class Lotus{
 $(document).ready(()=>{
   $("lotus").each((index, element)=>{
     var elem = $(element);
-    elem.replaceWith(TEMPLATES[elem.attr("data-template")]);
+    elem.replaceWith(TEMPLATES[elem.attr("data-template")].clone(true, true));
   });
 });
