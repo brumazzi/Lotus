@@ -14,13 +14,6 @@ class Lotus{
     return template;
   }
 
-  static renderContent(element){
-    var templateJson = JSON.parse($(element).html());
-    var template = this.generateDOMElement(null, templateJson);
-
-    return template;
-  }
-
   static reloadElement(element){
     $(element).replaceWith(Lotus.TEMPLATES[$(element).attr('origin')]);
   }
@@ -93,15 +86,61 @@ class Lotus{
     }
     return currentElement;
   }
-};
+
+  static renderInput(element){
+    var type = $(element).attr('type');
+    var template = Lotus.TEMPLATES[type].clone(true, true);
+
+    $.each(element.prop("attributes"), (index, attr)=>{
+      if(attr.name == "id"){
+        template.find('.form-control').attr('id', attr.value);
+        template.find('label').attr('for', attr.value);
+      }else if(attr.name == 'name'){
+        template.find('.input').attr('name', attr.value);
+      }else if(attr.name == "label"){
+        template.find('label').html(attr.value);
+      }else if(attr.name == "mask"){
+        template.find('.input').keypress((evt)=>{
+          var exp_number = new RegExp(attr.value);
+          if(evt.key.search(exp_number))
+          evt.preventDefault();
+        });
+      }else if(attr.name != 'type'){
+        if(attr.name == 'class'){
+          template.find('.input').addClass(attr.value);
+        }else{
+          template.find('.input').attr(attr.name, attr.value);
+        }
+      }
+    });
+
+    element.replaceWith(template);
+  }
+
+  static renderTemplate(element){
+    element.replaceWith(Lotus.TEMPLATES[element.attr("data-template")].clone(true, true));
+  }
+
+  static renderContent(element){
+    var templateJson = JSON.parse($(element).html());
+    var template = this.generateDOMElement(null, templateJson);
+
+    element.replaceWith(template);
+    return template;
+  }
+}
 
 $(document).ready(()=>{
   $("lotus[type=template]").each((index, element)=>{
     var elem = $(element);
-    elem.replaceWith(Lotus.TEMPLATES[elem.attr("data-template")].clone(true, true));
+    Lotus.renderTemplate(elem);
   });
   $("lotus[type=render]").each((index, element)=>{
     var elem = $(element);
-    elem.replaceWith(Lotus.renderContent(elem));
+    Lotus.renderContent(elem);
+  });
+  $("lotus[type^=input-]").each((index, element)=>{
+    var elem = $(element);
+    Lotus.renderInput(elem);
   });
 });
