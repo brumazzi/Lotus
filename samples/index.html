@@ -14,6 +14,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
 	<script src="../js/lotus.js"></script>
+	<script src="../js/lotus-templates.js"></script>
 	<script src="js/templates.json"></script>
 	<script src="js/default.js"></script>
 </head>
@@ -32,6 +33,19 @@
 			<div class="col-sm-4">
 				<lotus type="render">{"tag":"button","class":"btn btn-danger","node":["Click Here!"]}</lotus>
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<input type="lotus-text" id="nome" label="<b>Nome</b>" class="" value='Hello'>
+				<input type="lotus-date" id="data" label="<b>Data</b>" class="">
+				<input type="lotus-radio" id="radio1" name="check" label="<b>Radio 1</b>" value="55">
+				<input type="lotus-radio" id="radio2" name="check" label="<b>Radio 2</b>" value="00">
+				<input type="lotus-checkbox" id="check" label="<b>My Check Box</b>">
+			</div>
+			<div class="col-sm-4">
+				<input type="lotus-text" id="numbero" label="<b>Numero</b>" mask="[\-0-9.]" class="">
+			</div>
+			<div class="col-sm-4"></div>
 		</div>
 		<div id="test"><span class="badge bg-dark text-light">hello</span></div>
 	</div>

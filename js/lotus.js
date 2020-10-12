@@ -87,34 +87,15 @@ class Lotus{
     return currentElement;
   }
 
-  static renderInput(element){
-    var type = $(element).attr('type');
-    var template = Lotus.TEMPLATES[type].clone(true, true);
+  static getTemplate(templateName, real=false){
+    if(real){
+      return Lotus.TEMPLATES[templateName];
+    }
+    return Lotus.TEMPLATES[templateName].clone(true, true);
+  }
 
-    $.each(element.prop("attributes"), (index, attr)=>{
-      if(attr.name == "id"){
-        template.find('.form-control').attr('id', attr.value);
-        template.find('label').attr('for', attr.value);
-      }else if(attr.name == 'name'){
-        template.find('.input').attr('name', attr.value);
-      }else if(attr.name == "label"){
-        template.find('label').html(attr.value);
-      }else if(attr.name == "mask"){
-        template.find('.input').keypress((evt)=>{
-          var exp_number = new RegExp(attr.value);
-          if(evt.key.search(exp_number))
-          evt.preventDefault();
-        });
-      }else if(attr.name != 'type'){
-        if(attr.name == 'class'){
-          template.find('.input').addClass(attr.value);
-        }else{
-          template.find('.input').attr(attr.name, attr.value);
-        }
-      }
-    });
-
-    element.replaceWith(template);
+  static getTemplateJSON(templateName){
+    return Lotus.toTemplameJSON(Lotus.TEMPLATES[templateName]);
   }
 
   static renderTemplate(element){
@@ -138,9 +119,5 @@ $(document).ready(()=>{
   $("lotus[type=render]").each((index, element)=>{
     var elem = $(element);
     Lotus.renderContent(elem);
-  });
-  $("lotus[type^=input-]").each((index, element)=>{
-    var elem = $(element);
-    Lotus.renderInput(elem);
   });
 });

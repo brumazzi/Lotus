@@ -1,0 +1,29 @@
+lotus{display: none}
+
+label:empty{
+  display: none;
+}
+
+.radio .mark, .checkbox .mark{
+  transition: background-color 0.2s;
+  display: inline-block;
+  border: solid 2px #aaa;
+  width: 18px;
+  height: 18px;
+  margin: 0px;
+  margin-right: 6px;
+  border-radius: 2px;
+  background-color: white;
+}
+
+.checked .mark{
+  background-color: #007bff;
+}
+
+.radio .mark{
+  border-radius: 18px;
+}
+
+.radio .text, .checkbox .text{
+  transform: translateY(-3px);
+}
