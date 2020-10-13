@@ -8,7 +8,7 @@ class Lotus{
 
   static reloadElement(element){
     var template = Lotus.TEMPLATES[$(element).attr('origin')];
-    $(element).replaceWith(Lotus.generateDOMElement(null, template));
+    $(element).replaceWith(Lotus.generateDOMElement(null, template, $(element).attr('origin')));
   }
 
   static replaceByElement(elementOrigin, elementDest){
@@ -16,8 +16,8 @@ class Lotus{
   }
 
   static replaceByTemplate(element, templateName){
-    var template = Lotus.TEMPLATES[templateName]
-    var newElement = Lotus.generateDOMElement(null, template);
+    var template = Lotus.TEMPLATES[templateName];
+    var newElement = Lotus.generateDOMElement(null, template, templateName);
     $(element).replaceWith(newElement);
   }
 
@@ -46,7 +46,7 @@ class Lotus{
     return elementJSON;
   }
 
-  static generateDOMElement(parent, node){
+  static generateDOMElement(parent, node, templateName=null){
     if(typeof(node) != "object"){
       var data = $(document.createElement('span'));
       data.html(node);
@@ -71,26 +71,25 @@ class Lotus{
         currentElement.attr(keys[index], node[keys[index]]);
       }
     }
+    if(templateName) currentElement.attr('origin', templateName);
     if(parent){
       parent.append(currentElement);
     }
     return currentElement;
   }
 
-  static getTemplate(templateName, real=false){
-    if(real){
-      return Lotus.TEMPLATES[templateName];
-    }
-    return Lotus.TEMPLATES[templateName].clone(true, true);
+  static getTemplate(templateName){
+    return Lotus.TEMPLATES[templateName];
   }
 
-  static getTemplateJSON(templateName){
-    return Lotus.TEMPLATES[templateName];
+  static getTemplateDOMElement(templateName){
+    var template = Lotus.TEMPLATES[templateName];
+    return Lotus.generateDOMElement(null, template, templateName);
   }
 
   static renderTemplate(element){
     var template = Lotus.TEMPLATES[element.attr("data-template")];
-    element.replaceWith(Lotus.generateDOMElement(null, template));
+    element.replaceWith(Lotus.generateDOMElement(null, template, element.attr("data-template")));
   }
 
   static renderContent(element){

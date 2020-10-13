@@ -32,7 +32,7 @@ for(var index = 0; index < inputs.length; index++){
 
 Lotus.renderInput = (element)=>{
   var type = $(element).attr('type');
-  var elementDOM = Lotus.generateDOMElement(null, Lotus.TEMPLATES[type]);
+  var elementDOM = Lotus.generateDOMElement(null, Lotus.TEMPLATES[type], type);
 
   $.each(element.prop("attributes"), (index, attr)=>{
     if(attr.name == "id"){
