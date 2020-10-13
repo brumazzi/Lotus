@@ -1,38 +1,28 @@
 class Lotus{
   static TEMPLATES = {};
 
-  static createTemplate(templateJson){
+  static createTemplate(templateJson, templateName){
     if(!templateJson) return null;
-
-    var template;
-    var templateName = templateJson["name"];
-
-    template = this.generateDOMElement(null, templateJson["node"]);
-    template.attr('origin', templateName);
-    this.TEMPLATES[templateName] = template;
-
-    return template;
+    Lotus.TEMPLATES[templateName] = templateJson;
   }
 
   static reloadElement(element){
-    $(element).replaceWith(Lotus.TEMPLATES[$(element).attr('origin')]);
+    var template = Lotus.TEMPLATES[$(element).attr('origin')];
+    $(element).replaceWith(Lotus.generateDOMElement(null, template));
   }
 
   static replaceByElement(elementOrigin, elementDest){
     $(elementDest).replaceWith($(elementOrigin).clone(true, true));
   }
 
-  static replaceByTemplate(element, template){
-    $(element).replaceWith($(Lotus.TEMPLATES[template]).clone(true, true));
+  static replaceByTemplate(element, templateName){
+    var template = Lotus.TEMPLATES[templateName]
+    var newElement = Lotus.generateDOMElement(null, template);
+    $(element).replaceWith(newElement);
   }
 
-  static toTemplameJSON(element, templateName){
-    var templateJson = {
-      "name": templateName
-    };
-
-    templateJson["node"] = this.generateJsonFromElement(element);
-    return templateJson;
+  static toTemplameJSON(element){
+    return Lotus.generateJsonFromElement(element);
   }
 
   static generateJsonFromElement(element){
@@ -47,7 +37,7 @@ class Lotus{
     if(element.children().length){
       elementJSON["node"] = [];
       element.children().each((index, childElement)=>{
-        elementJSON["node"].push(this.generateJsonFromElement($(childElement)));
+        elementJSON["node"].push(Lotus.generateJsonFromElement($(childElement)));
       });
     }else if(element.html()){
       elementJSON["node"] = [];
@@ -68,7 +58,7 @@ class Lotus{
     for(var index=0; index < keys.length; index+=1){
       if(keys[index] == "node"){
         for(var nodeI=0; nodeI < node["node"].length; nodeI+=1){
-          this.generateDOMElement(currentElement, node["node"][nodeI]);
+          Lotus.generateDOMElement(currentElement, node["node"][nodeI]);
         }
       }else if(keys[index] == "tag"){
         continue;
@@ -95,16 +85,17 @@ class Lotus{
   }
 
   static getTemplateJSON(templateName){
-    return Lotus.toTemplameJSON(Lotus.TEMPLATES[templateName]);
+    return Lotus.TEMPLATES[templateName];
   }
 
   static renderTemplate(element){
-    element.replaceWith(Lotus.TEMPLATES[element.attr("data-template")].clone(true, true));
+    var template = Lotus.TEMPLATES[element.attr("data-template")];
+    element.replaceWith(Lotus.generateDOMElement(null, template));
   }
 
   static renderContent(element){
     var templateJson = JSON.parse($(element).html());
-    var template = this.generateDOMElement(null, templateJson);
+    var template = Lotus.generateDOMElement(null, templateJson);
 
     element.replaceWith(template);
     return template;

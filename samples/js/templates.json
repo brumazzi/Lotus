@@ -1,29 +1,26 @@
 var formTemplate = {
-  "name": "myForm",
-  "node": {
-    "tag": "form",
-    "class": "bg-dark p-3 mt-5",
-    "node": [
-      {
-        "tag": "input",
-        "type": "text",
-        "class": "form-control",
-        "name": "data",
-        "value": "texto",
-      },
-      {
-        "tag": "input",
-        "type": "button",
-        "value": "Enviar",
-        "class": "btn btn-success mt-2",
-        "events": [
-          {
-            "type": "click",
-            "callback": "mostrar_alerta",
-            "args": ["evt", "$(evt.currentTarget).closest('form').find('input[type=text]').val()"]
-          }
-        ]
-      }
-    ]
-  }
+  "tag": "form",
+  "class": "bg-dark p-3 mt-5",
+  "node": [
+    {
+      "tag": "input",
+      "type": "text",
+      "class": "form-control",
+      "name": "data",
+      "value": "texto",
+    },
+    {
+      "tag": "input",
+      "type": "button",
+      "value": "Enviar",
+      "class": "btn btn-success mt-2",
+      "events": [
+        {
+          "type": "click",
+          "callback": "mostrar_alerta",
+          "args": ["evt", "$(evt.currentTarget).closest('form').find('input[type=text]').val()"]
+        }
+      ]
+    }
+  ]
 };
